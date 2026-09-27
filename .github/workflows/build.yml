@@ -11,9 +11,16 @@ jobs:
         with:
           flutter-version: '3.19.0'
           channel: 'stable'
+      - name: Create project structure
+        run: |
+          flutter create --platforms=android .
+          rm lib/main.dart
+      - name: Restore our app
+        run: |
+          git checkout main -- lib/main.dart
       - run: flutter pub get
-      - run: flutter build apk --release
+      - run: flutter build apk --release --no-tree-shake-icons
       - uses: actions/upload-artifact@v4
         with:
           name: MarketMakerAI-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk 
